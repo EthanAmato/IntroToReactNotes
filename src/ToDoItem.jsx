@@ -3,7 +3,9 @@ import { useState } from "react";
 
 // In react, we can tell a component that it accepts data from a parent component
 // by giving it an object that will spread out possible fields of data such as 'ToDoName'
-function ToDoItem({ toDoName }) {
+function ToDoItem({ toDoName, deleteTodo }) {
+
+
   // Ternary operator:
   // A ternary operator is a quick way in javascript (and a bunch of other languages) to set a variable equal
   // to something if a condition is true and something else if false
@@ -39,7 +41,7 @@ function ToDoItem({ toDoName }) {
         </div>
         <div className="row">
           <div className="col-md-2 p-0">
-            <button className="btn btn-danger w-75 px-0 m-0 my-1">
+            <button onClick={deleteTodo} className="btn btn-danger w-75 px-0 m-0 my-1">
               Delete
             </button>
           </div>

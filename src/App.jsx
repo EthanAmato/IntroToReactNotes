@@ -11,19 +11,33 @@ import FancyInput from "./FancyInput";
 import DataFetcher from "./DataFetcher";
 
 import { useState, useRef } from "react";
+import KeysExample from "./KeysExample";
 
 function App() {
 
-  const [toDoItems, setToDoItems] = useState([{text: "Walk the dog"}, {text: "Wash the dishes"}])
+  const [toDoItems, setToDoItems] = useState([])
   const inputRef = useRef();
 
   const handleAdd = () => {
+
+    const currentInputText = inputRef.current.value || undefined
     // Add a new element to our toDoItems array using spread operator
-    setToDoItems([...toDoItems, {text: inputRef.current.value}])
+    setToDoItems([...toDoItems, {text: currentInputText, id: Date.now()}])
     
     // Can 'clear out' the input so that the user can put in a new todo
     inputRef.current.value = ""
   }
+
+  // This is one way on how you handle delete with arrays
+  // Just filter out a single item via some unique identifier like ID
+  const handleDelete = (id) => {
+    setToDoItems(
+      toDoItems.filter((toDo) => {
+        return toDo.id !== id;
+      })
+    )
+  }
+
 
   return (
     <>
@@ -49,6 +63,9 @@ function App() {
       {/* useEffect Example*/}
       {/* <DataFetcher/> */}
 
+
+      {/* Why keys are important: */}
+      {/* <KeysExample/> */}
       <div className="container board mt-3">
         <div className="row text-center">
           <h1>To Do List:</h1>
@@ -57,10 +74,12 @@ function App() {
             {/* Put to dos in here eventually */}
             {/* <ToDoItem toDoName={"Walk the dog"} /> */}
             {
-              toDoItems.map((item, index) => {
-
+              // A key is crucial for helping react understand which
+              // items in an array has changed, were added, or were removed
+              toDoItems.map((item) => {
+                console.log(item)
                 return(
-                  <ToDoItem toDoName={item.text} key={index}/>
+                  <ToDoItem deleteTodo={() => handleDelete(item.id)}  toDoName={item.text} key={item.id}/>
                 )
               })
             }
