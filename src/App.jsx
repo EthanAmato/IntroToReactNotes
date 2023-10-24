@@ -78,6 +78,7 @@ function App() {
               // items in an array has changed, were added, or were removed
               toDoItems.map((item) => {
                 console.log(item)
+                window.localStorage.setItem(item.id, item.text)
                 return(
                   <ToDoItem deleteTodo={() => handleDelete(item.id)}  toDoName={item.text} key={item.id}/>
                 )
